@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sprint'n Survive!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div id="stats">
+        <span id="points-label">Punkty:</span> <span id="points">0</span> | 
+        <span id="distance-label">Do mety:</span> <span id="distance">1000</span>m
+    </div>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+    <!-- Dodajemy elementy audio -->
+    <audio id="winSound" src="sounds/win-retro.mp3" preload="auto"></audio>
+    <audio id="startGameSound" src="sounds/start-game-retro.mp3" preload="auto"></audio>
+    <audio id="lobbyMusic" src="sounds/lobby-game-retro.mp3" preload="auto" loop></audio>
+    <audio id="failSound" src="sounds/fail-retro.mp3" preload="auto"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tworzymy globalne referencje do elementów DOM
+            window.gameElements = {
+                statsDiv: document.getElementById('stats'),
+                pointsDisplay: document.getElementById('points'),
+                distanceDisplay: document.getElementById('distance'),
+                winSound: document.getElementById('winSound'),
+                startGameSound: document.getElementById('startGameSound'),
+                lobbyMusic: document.getElementById('lobbyMusic'),
+                failSound: document.getElementById('failSound')
+            };
+
+            // Funkcje do obsługi dźwięków
+            window.sounds = {
+                playWin: function() {
+                    if (window.gameElements.winSound) {
+                        window.gameElements.winSound.play().catch(e => console.log("Błąd odtwarzania dźwięku wygranej"));
+                    }
+                },
+                playStart: function() {
+                    if (window.gameElements.startGameSound) {
+                        window.gameElements.startGameSound.play().catch(e => console.log("Błąd odtwarzania dźwięku startu"));
+                    }
+                },
+                playLobbyMusic: function() {
+                    if (window.gameElements.lobbyMusic) {
+                        window.gameElements.lobbyMusic.play().catch(e => console.log("Błąd odtwarzania muzyki w lobby"));
+                    }
+                },
+                playFail: function() {
+                    if (window.gameElements.failSound) {
+                        window.gameElements.failSound.play().catch(e => console.log("Błąd odtwarzania dźwięku porażki"));
+                    }
+                }
+            };
+
+            // Funkcja do aktualizacji statystyk
+            window.updateStats = function(points, distance) {
+                document.getElementById('points').textContent = points;
+                document.getElementById('distance').textContent = distance;
+            };
+
+            // Ładujemy główny skrypt gry
+            const script = document.createElement('script');
+            script.src = 'game.js';
+            document.body.appendChild(script);
+        });
+
+        // Dodajemy funkcję do debugowania
+        window.testStats = function() {
+            console.log("Test aktualizacji statystyk");
+            window.updateStats(100, 500);
+        }
+    </script>
+</body>
+</html>
